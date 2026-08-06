@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,7 +18,9 @@
 
 <h1>Global Pair Connect</h1>
 
-<p>Video Interview Portal</p>
+<p>
+Professional Online Au Pair Video Interview Portal
+</p>
 
 </header>
 
@@ -28,24 +29,32 @@
 <h2>Welcome</h2>
 
 <p>
-Welcome to the Global Pair Connect video interview.
+Welcome to your Global Pair Connect online interview.
 </p>
 
 <p>
-Please make sure you are in a quiet room with good lighting.
+Before starting please ensure:
 </p>
 
-<p>
-This interview contains 10 questions.
-</p>
+<p>✅ You are alone in a quiet room.</p>
 
-<p>
-Each answer should be between 1 and 3 minutes.
-</p>
+<p>✅ Your face is clearly visible.</p>
+
+<p>✅ Your passport or ID is ready.</p>
+
+<p>✅ Your internet connection is stable.</p>
+
+<p>There are 10 interview questions.</p>
+
+<p>Each answer should be between 1 and 3 minutes.</p>
+
+<div class="buttons">
 
 <button id="startBtn">
 Start Interview
 </button>
+
+</div>
 
 </section>
 
@@ -88,6 +97,8 @@ placeholder="Email Address"
 
 </select>
 
+<h3>Camera Preview</h3>
+
 <video
 id="camera"
 autoplay
@@ -96,12 +107,16 @@ muted
 ></video>
 
 <p>
-Please hold your passport or national ID in front of the camera for a few seconds.
+Please hold your passport or national ID in front of the camera before continuing.
 </p>
+
+<div class="buttons">
 
 <button id="continueBtn">
 Continue
 </button>
+
+</div>
 
 </section>
 
@@ -111,13 +126,9 @@ Continue
 Question 1 of 10
 </h2>
 
-<p id="question">
-Question appears here...
-</p>
-
-<p id="time">
+<div id="time">
 00:00
-</p>
+</div>
 
 <video
 id="preview"
@@ -126,20 +137,24 @@ playsinline
 muted
 ></video>
 
-<div>
+<h2 id="question">
+Question will appear here...
+</h2>
+
+<div class="buttons">
 
 <button id="recordBtn">
-Start Recording
+🎥 Start Recording
 </button>
 
 <button
 id="stopBtn"
 disabled>
-Stop Recording
+⏹ Stop Recording
 </button>
 
 <button id="nextBtn">
-Next Question
+Next Question →
 </button>
 
 </div>
@@ -149,8 +164,27 @@ Next Question
 <section id="finish" style="display:none;">
 
 <h2>
-Interview Complete
+Interview Completed
 </h2>
 
 <p>
-Thank you for completing your Global
+Thank you for completing your Global Pair Connect interview.
+</p>
+
+<p>
+Our recruitment team will review your interview and contact you if you are shortlisted.
+</p>
+
+</section>
+
+<footer>
+
+© 2026 Global Pair Connect. All Rights Reserved.
+
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

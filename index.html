@@ -183,6 +183,18 @@ Our recruitment team will review your interview and contact you if you are short
 
 </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://lozlrdwvvbflxieqqgsv.supabase.co";
+
+const SUPABASE_ANON_KEY = "YOUR_ANON_PUBLIC_KEY_HERE";
+
+window.supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+</script>
 <script src="script.js"></script>
 
 </body>

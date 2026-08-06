@@ -215,3 +215,65 @@ String(secs).padStart(2,"0");
 },1000);
 
 }
+
+// =======================================
+// PART 3 - RECORDING
+// =======================================
+
+function startRecording(){
+
+if(!stream){
+
+alert("Camera not ready.");
+
+return;
+
+}
+
+recordedChunks=[];
+
+mediaRecorder=new MediaRecorder(stream);
+
+mediaRecorder.ondataavailable=function(event){
+
+if(event.data.size>0){
+
+recordedChunks.push(event.data);
+
+}
+
+};
+
+mediaRecorder.onstop=function(){
+
+const blob=new Blob(recordedChunks,{
+
+type:"video/webm"
+
+});
+
+console.log("Video recorded",blob);
+
+alert("Recording saved successfully.");
+
+};
+
+mediaRecorder.start();
+
+recordBtn.disabled=true;
+stopBtn.disabled=false;
+
+}
+
+function stopRecording(){
+
+if(mediaRecorder && mediaRecorder.state==="recording"){
+
+mediaRecorder.stop();
+
+}
+
+recordBtn.disabled=false;
+stopBtn.disabled=true;
+
+}

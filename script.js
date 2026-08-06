@@ -111,3 +111,107 @@ interview.style.display="block";
 showQuestion();
 
 }
+
+// =======================================
+// PART 2 - QUESTIONS, VOICE & TIMER
+// =======================================
+
+// Register buttons
+
+recordBtn.addEventListener("click", startRecording);
+stopBtn.addEventListener("click", stopRecording);
+nextBtn.addEventListener("click", nextQuestion);
+
+// Show Question
+
+function showQuestion(){
+
+progress.textContent =
+"Question " +
+(currentQuestion+1) +
+" of " +
+questions.length;
+
+question.textContent =
+questions[currentQuestion];
+
+speakQuestion(questions[currentQuestion]);
+
+startCountdown();
+
+}
+
+// Read question aloud
+
+function speakQuestion(text){
+
+speechSynthesis.cancel();
+
+const speech =
+new SpeechSynthesisUtterance(text);
+
+speech.lang="en-US";
+speech.rate=0.95;
+speech.pitch=1;
+
+speechSynthesis.speak(speech);
+
+}
+
+// Countdown before recording
+
+function startCountdown(){
+
+let count=5;
+
+time.textContent=
+"Starting in " + count;
+
+const countdown =
+setInterval(()=>{
+
+count--;
+
+time.textContent=
+"Starting in " + count;
+
+if(count<=0){
+
+clearInterval(countdown);
+
+startTimer();
+
+}
+
+},1000);
+
+}
+
+// Interview timer
+
+function startTimer(){
+
+clearInterval(timer);
+
+seconds=0;
+
+timer=setInterval(()=>{
+
+seconds++;
+
+const mins =
+Math.floor(seconds/60);
+
+const secs =
+seconds%60;
+
+time.textContent =
+String(mins).padStart(2,"0")
++
+":"
++
+String(secs).padStart(2,"0");
+
+},1000);
+
+}

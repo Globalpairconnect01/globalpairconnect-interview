@@ -277,3 +277,58 @@ recordBtn.disabled=false;
 stopBtn.disabled=true;
 
 }
+
+// =======================================
+// PART 4 - NEXT QUESTION & FINISH
+// =======================================
+
+function nextQuestion(){
+
+clearInterval(timer);
+
+currentQuestion++;
+
+if(currentQuestion>=questions.length){
+
+interview.style.display="none";
+
+finish.style.display="block";
+
+if(stream){
+
+stream.getTracks().forEach(track=>track.stop());
+
+}
+
+speechSynthesis.cancel();
+
+const speech=new SpeechSynthesisUtterance(
+"Congratulations. You have successfully completed your Global Pair Connect interview. Thank you."
+);
+
+speech.lang="en-US";
+
+speechSynthesis.speak(speech);
+
+return;
+
+}
+
+showQuestion();
+
+}
+
+// Browser Support
+
+if(!navigator.mediaDevices){
+
+alert(
+"Please use the latest version of Chrome, Edge or Firefox."
+);
+
+}
+
+// Initial Button State
+
+recordBtn.disabled=false;
+stopBtn.disabled=true;

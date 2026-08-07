@@ -1,4 +1,4 @@
-
+alert("script.js loaded");
 // =======================================
 // GLOBAL PAIR CONNECT
 // PART 1 - INITIALIZATION & CAMERA

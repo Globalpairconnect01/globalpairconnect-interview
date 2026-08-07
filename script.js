@@ -1,4 +1,4 @@
-alert("script.js loaded");
+
 // =======================================
 // GLOBAL PAIR CONNECT
 // PART 1 - INITIALIZATION & CAMERA
@@ -6,7 +6,7 @@ alert("script.js loaded");
 
 // Interview Questions
 
-const supabase = window.supabaseClient;
+const supabase = window.supabaseClient || null;
 
 const questions = [
 "Tell us about yourself and explain why you would like to become an au pair.",

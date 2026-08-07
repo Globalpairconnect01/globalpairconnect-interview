@@ -247,17 +247,58 @@ recordedChunks.push(event.data);
 
 };
 
-mediaRecorder.onstop=function(){
+mediaRecorder.onstop = async function () {
 
-const blob=new Blob(recordedChunks,{
+    const videoBlob = new Blob(recordedChunks, {
+        type: "video/webm"
+    });
 
-type:"video/webm"
+    const fileName =
+        Date.now() +
+        "_" +
+        appIDInput.value +
+        ".webm";
 
-});
+    // Upload video to Supabase Storage
+    const { error: uploadError } = await supabase.storage
+        .from("interviews")
+        .upload(fileName, videoBlob, {
+            contentType: "video/webm",
+            upsert: true
+        });
 
-console.log("Video recorded",blob);
+    if (uploadError) {
+        console.error(uploadError);
+        alert("Video upload failed.");
+        return;
+    }
 
-alert("Recording saved successfully.");
+    // Get public URL
+    const { data } = supabase.storage
+        .from("interviews")
+        .getPublicUrl(fileName);
+
+    // Save interview details
+    const { error: dbError } = await supabase
+        .from("interviews")
+        .insert([
+            {
+                full_name: nameInput.value,
+                application_id: appIDInput.value,
+                email: emailInput.value,
+                language: languageInput.value,
+                video_url: data.publicUrl,
+                status: "Pending"
+            }
+        ]);
+
+    if (dbError) {
+        console.error(dbError);
+        alert("Interview saved but database insert failed.");
+        return;
+    }
+
+    alert("Interview uploaded successfully!");
 
 };
 

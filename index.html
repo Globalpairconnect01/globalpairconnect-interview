@@ -2,221 +2,204 @@
 <html lang="en">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Pair Connect Interview Portal</title>
 
-<title>Global Pair Connect Interview Portal</title>
-
-<link rel="stylesheet" href="style.css">
-
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header>
+  <header>
+    <h1>Global Pair Connect</h1>
 
-<h1>Global Pair Connect</h1>
+    <p>
+      Professional Online Au Pair Video Interview Portal
+    </p>
+  </header>
 
-<p>
-Professional Online Au Pair Video Interview Portal
-</p>
 
-</header>
+  <section id="welcome">
 
-<section id="welcome">
+    <h2>Welcome</h2>
 
-<h2>Welcome</h2>
+    <p>
+      Welcome to your Global Pair Connect online interview.
+    </p>
 
-<p>
-Welcome to your Global Pair Connect online interview.
-</p>
+    <p>Before starting please ensure:</p>
 
-<p>
-Before starting please ensure:
-</p>
+    <p>✅ You are alone in a quiet room.</p>
+    <p>✅ Your face is clearly visible.</p>
+    <p>✅ Your passport or ID is ready.</p>
+    <p>✅ Your internet connection is stable.</p>
 
-<p>✅ You are alone in a quiet room.</p>
+    <p>There are 10 interview questions.</p>
 
-<p>✅ Your face is clearly visible.</p>
+    <p>Each answer should be between 1 and 3 minutes.</p>
 
-<p>✅ Your passport or ID is ready.</p>
+    <div class="buttons">
+      <button id="startBtn">
+        Start Interview
+      </button>
+    </div>
 
-<p>✅ Your internet connection is stable.</p>
+  </section>
 
-<p>There are 10 interview questions.</p>
 
-<p>Each answer should be between 1 and 3 minutes.</p>
+  <section id="identity" style="display:none;">
 
-<div class="buttons">
+    <h2>Identity Verification</h2>
 
-<button id="startBtn">
-Start Interview
-</button>
+    <label>Full Name</label>
 
-</div>
+    <input
+      type="text"
+      id="name"
+      placeholder="Enter your full name"
+    >
 
-</section>
+    <label>Application ID</label>
 
-<section id="identity" style="display:none;">
+    <input
+      type="text"
+      id="appID"
+      placeholder="Application ID"
+    >
 
-<h2>Identity Verification</h2>
+    <label>Email Address</label>
 
-<label>Full Name</label>
+    <input
+      type="email"
+      id="email"
+      placeholder="Email Address"
+    >
 
-<input
-type="text"
-id="name"
-placeholder="Enter your full name"
->
+    <label>Preferred Language</label>
 
-<label>Application ID</label>
+    <select id="language">
+      <option>English</option>
+      <option>French</option>
+      <option>Spanish</option>
+      <option>German</option>
+    </select>
 
-<input
-type="text"
-id="appID"
-placeholder="Application ID"
->
+    <h3>Camera Preview</h3>
 
-<label>Email Address</label>
+    <video
+      id="camera"
+      autoplay
+      playsinline
+      muted
+    ></video>
 
-<input
-type="email"
-id="email"
-placeholder="Email Address"
->
+    <p>
+      Please hold your passport or national ID in front of the camera before continuing.
+    </p>
 
-<label>Preferred Language</label>
+    <div class="buttons">
+      <button id="continueBtn">
+        Continue
+      </button>
+    </div>
 
-<select id="language">
+  </section>
 
-<option>English</option>
-<option>French</option>
-<option>Spanish</option>
-<option>German</option>
 
-</select>
+  <section id="interview" style="display:none;">
 
-<h3>Camera Preview</h3>
+    <h2 id="progress">
+      Question 1 of 10
+    </h2>
 
-<video
-id="camera"
-autoplay
-playsinline
-muted
-></video>
+    <div id="time">
+      00:00
+    </div>
 
-<p>
-Please hold your passport or national ID in front of the camera before continuing.
-</p>
+    <video
+      id="preview"
+      autoplay
+      playsinline
+      muted
+    ></video>
 
-<div class="buttons">
+    <h2 id="question">
+      Question will appear here...
+    </h2>
 
-<button id="continueBtn">
-Continue
-</button>
+    <div class="buttons">
 
-</div>
+      <button id="recordBtn">
+        🎥 Start Recording
+      </button>
 
-</section>
+      <button id="stopBtn" disabled>
+        ⏹ Stop Recording
+      </button>
 
-<section id="interview" style="display:none;">
+      <button id="nextBtn">
+        Next Question →
+      </button>
 
-<h2 id="progress">
-Question 1 of 10
-</h2>
+    </div>
 
-<div id="time">
-00:00
-</div>
+  </section>
 
-<video
-id="preview"
-autoplay
-playsinline
-muted
-></video>
 
-<h2 id="question">
-Question will appear here...
-</h2>
+  <section id="finish" style="display:none;">
 
-<div class="buttons">
+    <h2>
+      Interview Completed
+    </h2>
 
-<button id="recordBtn">
-🎥 Start Recording
-</button>
+    <p>
+      Thank you for completing your Global Pair Connect interview.
+    </p>
 
-<button
-id="stopBtn"
-disabled>
-⏹ Stop Recording
-</button>
+    <p>
+      Our recruitment team will review your interview and contact you if you are shortlisted.
+    </p>
 
-<button id="nextBtn">
-Next Question →
-</button>
+  </section>
 
-</div>
 
-</section>
+  <footer>
+    © 2026 Global Pair Connect. All Rights Reserved.
+  </footer>
 
-<section id="finish" style="display:none;">
 
-<h2>
-Interview Completed
-</h2>
-
-<p>
-Thank you for completing your Global Pair Connect interview.
-</p>
-
-<p>
-Our recruitment team will review your interview and contact you if you are shortlisted.
-</p>
-
-</section>
-
-<footer>
-
-© 2026 Global Pair Connect. All Rights Reserved.
-
-</footer>
-
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
 
-<script>
-const SUPABASE_URL = "https://lozlrdwvvbflxieqqgsv.supabase.co";
+    const SUPABASE_URL =
+      "https://lozlrdwvvbflxieqqgsv.supabase.co";
 
-const SUPABASE_ANON_KEY = "sb_publishable_2h9ysrjJ4c4tv1eTv-Vreg_oH5rbmqy";
-window.supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-);
-</script>
+    const SUPABASE_ANON_KEY =
+      "sb_publishable_2h9ysrjJ4c4tv1eTv-Vreg_oH5rbmqy";
 
-</footer>
+    window.supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+      );
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    console.log("Supabase connected");
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </script>
 
-<script>
-const SUPABASE_URL = "https://lozlrdwvvbflxieqqgsv.supabase.co";
 
-const SUPABASE_ANON_KEY = "sb_publishable_2h9ysrjJ4c4tv1eTv-Vreg_oH5rbmqy";
-window.supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-);
-</script>
-<script>
-alert("INDEX HTML IS RUNNING");
-</script>
+  <!-- Test that index.html is executing -->
+  <script>
+    alert("INDEX HTML IS RUNNING");
+  </script>
 
-<script src="script.js"></script>
+
+  <!-- Interview JavaScript -->
+  <script src="script.js"></script>
 
 </body>
 </html>

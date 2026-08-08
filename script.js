@@ -1,5 +1,6 @@
 // ==========================================
-// GLOBAL PAIR CONNECT - CAMERA DEBUG
+// GLOBAL PAIR CONNECT - STEP 3
+// CAMERA + INTERVIEW QUESTIONS
 // ==========================================
 
 const startBtn = document.getElementById("startBtn");
@@ -7,9 +8,37 @@ const continueBtn = document.getElementById("continueBtn");
 
 const welcome = document.getElementById("welcome");
 const identity = document.getElementById("identity");
+const interview = document.getElementById("interview");
+
 const camera = document.getElementById("camera");
 
+const progress = document.getElementById("progress");
+const question = document.getElementById("question");
+
+const nameInput = document.getElementById("name");
+const appIDInput = document.getElementById("appID");
+const emailInput = document.getElementById("email");
+
 let stream = null;
+let currentQuestion = 0;
+
+
+// ==========================================
+// QUESTIONS
+// ==========================================
+
+const questions = [
+    "Tell us about yourself and explain why you would like to become an au pair.",
+    "Describe your experience caring for children.",
+    "Why do you want to live with a host family in Europe?",
+    "Describe a challenging situation with a child and how you handled it.",
+    "How would you manage homesickness while living abroad?",
+    "What would you do if a child refused to follow your instructions?",
+    "Describe what a normal working day as an au pair would look like.",
+    "What personal qualities make you a good au pair?",
+    "What would you do if you had a disagreement with your host family?",
+    "Is there anything else you would like the Global Pair Connect team to know about you?"
+];
 
 
 // ==========================================
@@ -21,19 +50,7 @@ startBtn.onclick = async function () {
     welcome.style.display = "none";
     identity.style.display = "block";
 
-    if (!navigator.mediaDevices) {
-        alert("Camera API is not available in this browser.");
-        return;
-    }
-
-    if (!navigator.mediaDevices.getUserMedia) {
-        alert("Your browser does not support camera access.");
-        return;
-    }
-
     try {
-
-        alert("Requesting camera access...");
 
         stream = await navigator.mediaDevices.getUserMedia({
             video: {
@@ -48,8 +65,6 @@ startBtn.onclick = async function () {
             audio: true
         });
 
-        alert("CAMERA ACCESS GRANTED");
-
         camera.srcObject = stream;
 
         camera.muted = true;
@@ -58,17 +73,16 @@ startBtn.onclick = async function () {
 
         await camera.play();
 
-        console.log("CAMERA STREAM:", stream);
-        console.log("CAMERA VIDEO:", camera.videoWidth, camera.videoHeight);
+        console.log("Camera and microphone working.");
 
     } catch (error) {
 
-        console.error("CAMERA ERROR:", error);
+        console.error(error);
 
         alert(
-            "CAMERA ERROR\n\n" +
-            "Name: " + error.name +
-            "\n\nMessage: " + error.message
+            "Camera could not start.\n\n" +
+            error.name +
+            "\n\nPlease allow camera and microphone access."
         );
 
     }
@@ -76,19 +90,14 @@ startBtn.onclick = async function () {
 
 
 // ==========================================
-// CONTINUE
+// CONTINUE TO INTERVIEW
 // ==========================================
 
 continueBtn.onclick = function () {
 
-    const name =
-        document.getElementById("name").value.trim();
-
-    const appID =
-        document.getElementById("appID").value.trim();
-
-    const email =
-        document.getElementById("email").value.trim();
+    const name = nameInput.value.trim();
+    const appID = appIDInput.value.trim();
+    const email = emailInput.value.trim();
 
     if (!name || !appID || !email) {
 
@@ -99,6 +108,29 @@ continueBtn.onclick = function () {
         return;
     }
 
-    alert("Identity information accepted.");
+    identity.style.display = "none";
+    interview.style.display = "block";
+
+    currentQuestion = 0;
+
+    showQuestion();
 
 };
+
+
+// ==========================================
+// SHOW QUESTION
+// ==========================================
+
+function showQuestion() {
+
+    progress.textContent =
+        "Question " +
+        (currentQuestion + 1) +
+        " of " +
+        questions.length;
+
+    question.textContent =
+        questions[currentQuestion];
+
+}

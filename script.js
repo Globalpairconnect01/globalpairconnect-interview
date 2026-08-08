@@ -1,5 +1,11 @@
 alert("SCRIPT.JS IS RUNNING");
 
+const startBtn = document.getElementById("startBtn");
+
+startBtn.addEventListener("click", function () {
+    alert("START INTERVIEW BUTTON WORKS");
+});
+
 console.log("SCRIPT.JS STARTED");
 
 const supabase = window.supabaseClient || null;

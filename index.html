@@ -1,943 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<title>Global Pair Connect Interview Portal</title>
+<title>Global Pair Connect - Interview</title>
 
 <style>
-
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     background: #eef4f8;
-    color: #222;
+    color: #17202a;
 }
 
 header {
-    background: #063b70;
+    background: #073f73;
     color: white;
-    text-align: center;
     padding: 30px 20px;
+    text-align: center;
 }
 
 header h1 {
-    margin: 0 0 10px;
-    font-size: 32px;
+    margin: 0;
+    font-size: 42px;
 }
 
 header p {
-    margin: 0;
-    font-size: 17px;
+    margin: 12px 0 0;
+    font-size: 20px;
 }
 
 .container {
-    width: 92%;
-    max-width: 700px;
+    width: 94%;
+    max-width: 950px;
     margin: 30px auto;
 }
 
 .card {
     background: white;
-    border-radius: 25px;
+    border-radius: 24px;
     padding: 30px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.12);
 }
 
-h2 {
-    color: #063b70;
+.hidden {
+    display: none !important;
 }
 
-label {
+.welcome-image {
+    width: 100%;
     display: block;
-    margin-top: 20px;
-    margin-bottom: 8px;
+    margin: 0 auto 30px;
+    border-radius: 18px;
+}
+
+h2 {
+    color: #06447b;
+    font-size: 32px;
+}
+
+h3 {
+    color: #06447b;
+    font-size: 28px;
+}
+
+.instructions {
+    background: #f0f6fc;
+    padding: 25px;
+    border-radius: 18px;
+    margin: 20px 0;
+    line-height: 1.8;
     font-size: 18px;
-    font-weight: bold;
 }
 
 input,
 select {
     width: 100%;
     padding: 17px;
-    border: 1px solid #ccc;
+    margin: 8px 0 18px;
+    border: 2px solid #d4d9df;
     border-radius: 14px;
     font-size: 17px;
+    background: white;
 }
 
-video {
-    width: 100%;
-    background: #000;
-    border-radius: 22px;
-    margin-top: 15px;
+label {
     display: block;
-}
-
-.camera-video {
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-}
-
-.interview-video {
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
+    font-weight: bold;
+    margin-top: 10px;
 }
 
 button {
     width: 100%;
-    padding: 18px;
-    margin-top: 20px;
     border: none;
     border-radius: 14px;
-    background: #075fbd;
-    color: white;
+    padding: 18px;
+    margin-top: 12px;
     font-size: 18px;
+    font-weight: bold;
     cursor: pointer;
+    background: #075db5;
+    color: white;
 }
 
-button:active {
-    transform: scale(0.98);
+button:hover {
+    background: #064b91;
 }
 
 button:disabled {
-    background: #999;
+    background: #aaa;
     cursor: not-allowed;
 }
 
+.secondary {
+    background: #777;
+}
+
+.secondary:hover {
+    background: #666;
+}
+
 .danger {
+    background: #e53935;
+}
+
+.danger:hover {
     background: #c62828;
 }
 
-.secondary {
-    background: #555;
+video {
+    width: 100%;
+    background: black;
+    border-radius: 18px;
+    display: block;
 }
 
-#timer {
-    text-align: center;
-    font-size: 38px;
-    font-weight: bold;
-    color: #d00000;
-    margin: 15px 0;
-}
-
-#progress {
-    text-align: center;
-    color: #063b70;
-}
-
-#question {
-    font-size: 25px;
-    line-height: 1.4;
+.camera-title {
+    font-size: 24px;
+    color: #06447b;
     margin-top: 25px;
 }
 
-.notice {
-    background: #f1f7fc;
-    padding: 18px;
-    border-radius: 14px;
-    margin-top: 20px;
-    line-height: 1.6;
+.question-box {
+    background: #f4f8fc;
+    border-radius: 18px;
+    padding: 25px;
+    margin-top: 25px;
+}
+
+.question {
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 1.4;
+    color: #06447b;
+}
+
+.progress {
+    font-size: 22px;
+    font-weight: bold;
+    color: #06447b;
+}
+
+.timer {
+    font-size: 42px;
+    font-weight: bold;
+    text-align: center;
+    color: #e00000;
+    margin: 20px 0;
+}
+
+.status {
+    text-align: center;
+    font-size: 17px;
+    margin: 15px 0;
+    font-weight: bold;
+}
+
+.success {
+    text-align: center;
+    color: #16823b;
+    font-size: 24px;
+    font-weight: bold;
 }
 
 footer {
-    margin-top: 50px;
-    background: #063b70;
+    background: #073f73;
     color: white;
     text-align: center;
     padding: 25px;
+    margin-top: 40px;
 }
 
-.hidden {
-    display: none;
-}
+@media (max-width: 600px) {
 
+    header h1 {
+        font-size: 31px;
+    }
+
+    header p {
+        font-size: 17px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 27px;
+    }
+
+    .question {
+        font-size: 22px;
+    }
+
+    .timer {
+        font-size: 36px;
+    }
+}
 </style>
-
 </head>
-
 
 <body>
 
-
 <header>
-
-<h1>Global Pair Connect</h1>
-
-<p>
-Professional Online Au Pair Video Interview Portal
-</p>
-
+    <h1>Global Pair Connect</h1>
+    <p>Professional Online Au Pair Video Interview Portal</p>
 </header>
-
 
 <div class="container">
 
-
-<!-- ================================= -->
-<!-- WELCOME -->
-<!-- ================================= -->
-
-<section id="welcome" class="card">
-
-<h2>Welcome</h2>
-
-<p>
-Welcome to your Global Pair Connect online interview.
-</p>
-
-<p>
-Before starting please ensure:
-</p>
-
-<div class="notice">
-
-<p>✅ You are alone in a quiet room.</p>
-
-<p>✅ Your face is clearly visible.</p>
-
-<p>✅ Your passport or ID is ready.</p>
-
-<p>✅ Your internet connection is stable.</p>
-
-<p>✅ Your camera and microphone are working.</p>
-
-</div>
-
-<p>
-There are 10 interview questions.
-</p>
-
-<p>
-Each answer should be between 1 and 3 minutes.
-</p>
-
-<button
-    id="startBtn"
-    type="button">
-
-Start Interview
-
-</button>
-
-</section>
-
-
-
-<!-- ================================= -->
-<!-- IDENTITY -->
-<!-- ================================= -->
-
-<section
-    id="identity"
-    class="card hidden">
-
-<h2>Identity Verification</h2>
-
-
-<label for="name">
-Full Name
-</label>
-
-<input
-    type="text"
-    id="name"
-    placeholder="Enter your full name">
-
-
-<label for="appID">
-Application ID
-</label>
-
-<input
-    type="text"
-    id="appID"
-    placeholder="Application ID">
-
-
-<label for="email">
-Email Address
-</label>
-
-<input
-    type="email"
-    id="email"
-    placeholder="Email Address">
-
-
-<label for="language">
-Preferred Language
-</label>
-
-<select id="language">
-
-<option value="English">
-English
-</option>
-
-<option value="French">
-French
-</option>
-
-<option value="Spanish">
-Spanish
-</option>
-
-<option value="German">
-German
-</option>
-
-</select>
-
-
-<h2>
-Camera Preview
-</h2>
-
-
-<video
-    id="camera"
-    class="camera-video"
-    autoplay
-    playsinline
-    muted>
-</video>
-
-
-<p>
-Please hold your passport or national ID in front of the camera before continuing.
-</p>
-
-
-<button
-    id="continueBtn"
-    type="button">
-
-Continue
-
-</button>
-
-</section>
-
-
-
-<!-- ================================= -->
-<!-- INTERVIEW -->
-<!-- ================================= -->
-
-<section
-    id="interview"
-    class="card hidden">
-
-<h2 id="progress">
-Question 1 of 10
-</h2>
-
-
-<div id="timer">
-00:00
-</div>
-
-
-<video
-    id="preview"
-    class="interview-video"
-    autoplay
-    playsinline
-    muted>
-</video>
-
-
-<h2 id="question">
-Question will appear here...
-</h2>
-
-
-<button
-    id="recordBtn"
-    type="button">
-
-🎥 Start Recording
-
-</button>
-
-
-<button
-    id="stopBtn"
-    class="danger"
-    type="button"
-    disabled>
-
-⏹ Stop Recording
-
-</button>
-
-
-<button
-    id="nextBtn"
-    type="button">
-
-Next Question →
-
-</button>
-
-
-</section>
-
-
-
-<!-- ================================= -->
-<!-- FINISH -->
-<!-- ================================= -->
-
-<section
-    id="finish"
-    class="card hidden">
-
-<h2>
-Interview Completed
-</h2>
-
-<p>
-Thank you for completing your Global Pair Connect interview.
-</p>
-
-<p>
-Our recruitment team will review your interview and contact you if you are shortlisted.
-</p>
-
-</section>
-
-
-</div>
-
-
-<footer>
-
-© 2026 Global Pair Connect. All Rights Reserved.
-
-</footer>
-
-
-
-<script>
-
-
-// ============================================
-// GLOBAL VARIABLES
-// ============================================
-
-let stream = null;
-
-let mediaRecorder = null;
-
-let recordedChunks = [];
-
-let timer = null;
-
-let seconds = 0;
-
-let currentQuestion = 0;
-
-
-// ============================================
-// QUESTIONS
-// ============================================
-
-const questions = [
-
-"Tell us about yourself and explain why you would like to become an au pair.",
-
-"Describe your experience caring for children.",
-
-"Why do you want to live with a host family in Europe?",
-
-"Describe a challenging situation with a child and how you handled it.",
-
-"How would you manage homesickness while living abroad?",
-
-"What would you do if a child refused to follow your instructions?",
-
-"Describe what a normal working day as an au pair would look like.",
-
-"What personal qualities make you a good au pair?",
-
-"What would you do if you had a disagreement with your host family?",
-
-"Is there anything else you would like the Global Pair Connect team to know about you?"
-
-];
-
-
-// ============================================
-// HTML ELEMENTS
-// ============================================
-
-const welcome =
-document.getElementById("welcome");
-
-const identity =
-document.getElementById("identity");
-
-const interview =
-document.getElementById("interview");
-
-const finish =
-document.getElementById("finish");
-
-const startBtn =
-document.getElementById("startBtn");
-
-const continueBtn =
-document.getElementById("continueBtn");
-
-const recordBtn =
-document.getElementById("recordBtn");
-
-const stopBtn =
-document.getElementById("stopBtn");
-
-const nextBtn =
-document.getElementById("nextBtn");
-
-const camera =
-document.getElementById("camera");
-
-const preview =
-document.getElementById("preview");
-
-const progress =
-document.getElementById("progress");
-
-const question =
-document.getElementById("question");
-
-const timerDisplay =
-document.getElementById("timer");
-
-
-// ============================================
-// START INTERVIEW
-// ============================================
-
-startBtn.onclick = async function() {
-
-    console.log("START INTERVIEW CLICKED");
-
-    welcome.classList.add("hidden");
-
-    identity.classList.remove("hidden");
-
-
-    try {
-
-        stream =
-        await navigator.mediaDevices.getUserMedia({
-
-            video: {
-                facingMode: "user"
-            },
-
-            audio: true
-
-        });
-
-
-        camera.srcObject = stream;
-
-        camera.muted = true;
-
-        await camera.play();
-
-
-        console.log(
-            "CAMERA AND MICROPHONE WORKING"
-        );
-
-
-    }
-
-    catch(error) {
-
-        console.error(error);
-
-        alert(
-            "Camera or microphone could not start.\n\n" +
-            error.name
-        );
-
-    }
-
-};
-
-
-// ============================================
-// CONTINUE
-// ============================================
-
-continueBtn.onclick = function() {
-
-    console.log("CONTINUE CLICKED");
-
-
-    const name =
-    document.getElementById("name")
-    .value
-    .trim();
-
-
-    const appID =
-    document.getElementById("appID")
-    .value
-    .trim();
-
-
-    const email =
-    document.getElementById("email")
-    .value
-    .trim();
-
-
-    if(
-        !name ||
-        !appID ||
-        !email
-    ) {
-
-        alert(
-            "Please complete your Full Name, Application ID and Email."
-        );
-
-        return;
-
-    }
-
-
-    identity.classList.add("hidden");
-
-    interview.classList.remove("hidden");
-
-
-    preview.srcObject = stream;
-
-    preview.muted = true;
-
-    awaitVideo();
-
-
-    showQuestion();
-
-};
-
-
-// ============================================
-// VIDEO PLAY
-// ============================================
-
-function awaitVideo() {
-
-    if(!preview.srcObject) {
-
-        console.log(
-            "Preview has no stream."
-        );
-
-        return;
-
-    }
-
-
-    preview.play()
-    .catch(function(error) {
-
-        console.log(
-            "Preview play error:",
-            error
-        );
-
-    });
-
-}
-
-
-// ============================================
-// SHOW QUESTION
-// ============================================
-
-function showQuestion() {
-
-    progress.textContent =
-    "Question " +
-    (currentQuestion + 1) +
-    " of " +
-    questions.length;
-
-
-    question.textContent =
-    questions[currentQuestion];
-
-
-    startTimer();
-
-
-    recordBtn.disabled = false;
-
-    stopBtn.disabled = true;
-
-
-    console.log(
-        "QUESTION " +
-        (currentQuestion + 1)
-    );
-
-}
-
-
-// ============================================
-// TIMER
-// ============================================
-
-function startTimer() {
-
-    clearInterval(timer);
-
-    seconds = 0;
-
-    timerDisplay.textContent =
-    "00:00";
-
-
-    timer = setInterval(function() {
-
-        seconds++;
-
-
-        const minutes =
-        Math.floor(seconds / 60);
-
-
-        const secs =
-        seconds % 60;
-
-
-        timerDisplay.textContent =
-
-        String(minutes)
-        .padStart(2,"0")
-
-        +
-
-        ":"
-
-        +
-
-        String(secs)
-        .padStart(2,"0");
-
-
-    },1000);
-
-}
-
-
-// ============================================
-// START RECORDING
-// ============================================
-
-recordBtn.onclick = function() {
-
-    if(!stream) {
-
-        alert(
-            "Camera is not ready."
-        );
-
-        return;
-
-    }
-
-
-    recordedChunks = [];
-
-
-    try {
-
-        mediaRecorder =
-        new MediaRecorder(stream);
-
-    }
-
-    catch(error) {
-
-        alert(
-            "Video recording is not supported by this browser."
-        );
-
-        console.error(error);
-
-        return;
-
-    }
-
-
-    mediaRecorder.ondataavailable =
-    function(event) {
-
-        if(event.data.size > 0) {
-
-            recordedChunks.push(
-                event.data
-            );
-
-        }
-
-    };
-
-
-    mediaRecorder.onstop =
-    function() {
-
-        console.log(
-            "Recording completed."
-        );
-
-        alert(
-            "Recording completed for Question " +
-            (currentQuestion + 1)
-        );
-
-    };
-
-
-    mediaRecorder.start();
-
-
-    recordBtn.disabled = true;
-
-    stopBtn.disabled = false;
-
-
-    console.log(
-        "RECORDING STARTED"
-    );
-
-};
-
-
-// ============================================
-// STOP RECORDING
-// ============================================
-
-stopBtn.onclick = function() {
-
-    if(
-        mediaRecorder &&
-        mediaRecorder.state === "recording"
-    ) {
-
-        mediaRecorder.stop();
-
-        recordBtn.disabled = false;
-
-        stopBtn.disabled = true;
-
-    }
-
-};
-
-
-// ============================================
-// NEXT QUESTION
-// ============================================
-
-nextBtn.onclick = function() {
-
-
-    if(
-        mediaRecorder &&
-        mediaRecorder.state === "recording"
-    ) {
-
-        alert(
-            "Please stop the recording before continuing."
-        );
-
-        return;
-
-    }
-
-
-    clearInterval(timer);
-
-
-    currentQuestion++;
-
-
-    if(
-        currentQuestion >=
-        questions.length
-    ) {
-
-        finishInterview();
-
-        return;
-
-    }
-
-
-    showQuestion();
-
-};
-
-
-// ============================================
-// FINISH
-// ============================================
-
-function finishInterview() {
-
-    clearInterval(timer);
-
-
-    interview.classList.add("hidden");
-
-    finish.classList.remove("hidden");
-
-
-    if(stream) {
-
-        stream.getTracks()
-        .forEach(function(track) {
-
-            track.stop();
-
-        });
-
-    }
-
-
-    console.log(
-        "INTERVIEW COMPLETED"
-    );
-
-}
-
-
-console.log(
-    "GLOBAL PAIR CONNECT - FULL HTML READY"
-);
-
-</script>
-
-
-</body>
-
-</html>
+    <!-- WELCOME -->
+    <section id="welcome" class="card">
+
+        <img
+            src="./file_00000000f3b081f4a2259aec0e9535ab.png"
+            alt="Global Pair Connect"
+            class="welcome-image"
+        >
+
+        <h2>Welcome</h

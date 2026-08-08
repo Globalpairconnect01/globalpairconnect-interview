@@ -1,5 +1,5 @@
 // ==========================================
-// GLOBAL PAIR CONNECT - CAMERA TEST
+// GLOBAL PAIR CONNECT - CAMERA DEBUG
 // ==========================================
 
 const startBtn = document.getElementById("startBtn");
@@ -7,53 +7,78 @@ const continueBtn = document.getElementById("continueBtn");
 
 const welcome = document.getElementById("welcome");
 const identity = document.getElementById("identity");
-
 const camera = document.getElementById("camera");
 
 let stream = null;
 
 
+// ==========================================
 // START INTERVIEW
+// ==========================================
+
 startBtn.onclick = async function () {
 
     welcome.style.display = "none";
     identity.style.display = "block";
 
-    if (!navigator.mediaDevices ||
-        !navigator.mediaDevices.getUserMedia) {
+    if (!navigator.mediaDevices) {
+        alert("Camera API is not available in this browser.");
+        return;
+    }
 
+    if (!navigator.mediaDevices.getUserMedia) {
         alert("Your browser does not support camera access.");
         return;
     }
 
     try {
 
+        alert("Requesting camera access...");
+
         stream = await navigator.mediaDevices.getUserMedia({
-            video: true,
+            video: {
+                facingMode: "user",
+                width: {
+                    ideal: 1280
+                },
+                height: {
+                    ideal: 720
+                }
+            },
             audio: true
         });
 
+        alert("CAMERA ACCESS GRANTED");
+
         camera.srcObject = stream;
+
+        camera.muted = true;
+        camera.autoplay = true;
+        camera.playsInline = true;
 
         await camera.play();
 
-        console.log("Camera and microphone are working.");
+        console.log("CAMERA STREAM:", stream);
+        console.log("CAMERA VIDEO:", camera.videoWidth, camera.videoHeight);
 
     } catch (error) {
 
         console.error("CAMERA ERROR:", error);
 
         alert(
-            "Camera could not start.\n\n" +
-            "Error: " + error.name +
-            "\n\nPlease allow Camera and Microphone access and reload the page."
+            "CAMERA ERROR\n\n" +
+            "Name: " + error.name +
+            "\n\nMessage: " + error.message
         );
 
     }
 };
 
 
+// ==========================================
 // CONTINUE
+// ==========================================
+
 continueBtn.onclick = function () {
 
     const name =

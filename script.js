@@ -10,8 +10,6 @@ const supabase = window.supabaseClient || null;
 
 // Interview Questions
 
-const supabase = window.supabaseClient || null;
-
 const questions = [
 "Tell us about yourself and explain why you would like to become an au pair.",
 "Describe your experience caring for children.",

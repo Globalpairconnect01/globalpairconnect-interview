@@ -1,6 +1,5 @@
 // ==========================================
-// GLOBAL PAIR CONNECT - STEP 2
-// CAMERA + IDENTITY
+// GLOBAL PAIR CONNECT - CAMERA TEST
 // ==========================================
 
 const startBtn = document.getElementById("startBtn");
@@ -20,6 +19,13 @@ startBtn.onclick = async function () {
     welcome.style.display = "none";
     identity.style.display = "block";
 
+    if (!navigator.mediaDevices ||
+        !navigator.mediaDevices.getUserMedia) {
+
+        alert("Your browser does not support camera access.");
+        return;
+    }
+
     try {
 
         stream = await navigator.mediaDevices.getUserMedia({
@@ -29,30 +35,41 @@ startBtn.onclick = async function () {
 
         camera.srcObject = stream;
 
-        console.log("Camera and microphone ready");
+        await camera.play();
+
+        console.log("Camera and microphone are working.");
 
     } catch (error) {
 
-        console.error("Camera error:", error);
+        console.error("CAMERA ERROR:", error);
 
         alert(
-            "Please allow access to your camera and microphone, then try again."
+            "Camera could not start.\n\n" +
+            "Error: " + error.name +
+            "\n\nPlease allow Camera and Microphone access and reload the page."
         );
 
     }
 };
 
 
-// CONTINUE BUTTON
+// CONTINUE
 continueBtn.onclick = function () {
 
-    const name = document.getElementById("name").value.trim();
-    const appID = document.getElementById("appID").value.trim();
-    const email = document.getElementById("email").value.trim();
+    const name =
+        document.getElementById("name").value.trim();
+
+    const appID =
+        document.getElementById("appID").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim();
 
     if (!name || !appID || !email) {
 
-        alert("Please complete your Full Name, Application ID and Email.");
+        alert(
+            "Please complete your Full Name, Application ID and Email."
+        );
 
         return;
     }

@@ -1,18 +1,42 @@
-console.log("SCRIPT LOADED");
+console.log("CAMERA SCRIPT LOADED");
 
 const startBtn = document.getElementById("startBtn");
+const welcome = document.getElementById("welcome");
+const identity = document.getElementById("identity");
+const camera = document.getElementById("camera");
 
-if (!startBtn) {
-    alert("ERROR: Start button not found");
-} else {
+let stream = null;
 
-    startBtn.addEventListener("click", function () {
+startBtn.onclick = async function () {
 
-        alert("START INTERVIEW CLICKED");
+    welcome.style.display = "none";
+    identity.style.display = "block";
 
-        document.getElementById("welcome").style.display = "none";
-        document.getElementById("identity").style.display = "block";
+    try {
 
-    });
+        stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true
+        });
 
-}
+        camera.srcObject = stream;
+
+        camera.muted = true;
+        camera.autoplay = true;
+        camera.playsInline = true;
+
+        await camera.play();
+
+        console.log("CAMERA WORKING");
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Camera error: " +
+            error.name
+        );
+
+    }
+};

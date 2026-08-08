@@ -1,4 +1,8 @@
 alert("SCRIPT.JS IS RUNNING");
+
+console.log("SCRIPT.JS STARTED");
+
+const supabase = window.supabaseClient || null;
 // =======================================
 // GLOBAL PAIR CONNECT
 // PART 1 - INITIALIZATION & CAMERA

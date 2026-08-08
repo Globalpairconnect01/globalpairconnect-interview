@@ -1,15 +1,22 @@
-console.log("CAMERA SCRIPT LOADED");
+console.log("GLOBAL PAIR CONNECT - CAMERA VERSION");
 
 const startBtn = document.getElementById("startBtn");
+const continueBtn = document.getElementById("continueBtn");
+
 const welcome = document.getElementById("welcome");
 const identity = document.getElementById("identity");
 const camera = document.getElementById("camera");
 
 let stream = null;
 
+
+// START INTERVIEW
 startBtn.onclick = async function () {
 
-    console.log("START BUTTON CLICKED");
+    console.log("Start Interview clicked");
+
+    welcome.style.display = "none";
+    identity.style.display = "block";
 
     try {
 
@@ -20,30 +27,50 @@ startBtn.onclick = async function () {
             audio: true
         });
 
-        console.log("CAMERA ACCESS GRANTED");
-
-        welcome.style.display = "none";
-        identity.style.display = "block";
-
         camera.srcObject = stream;
 
-        camera.muted = true;
         camera.autoplay = true;
         camera.playsInline = true;
+        camera.muted = true;
 
         await camera.play();
 
-        console.log("CAMERA VIDEO PLAYING");
+        console.log("Camera and microphone working");
 
     } catch (error) {
 
-        console.error("CAMERA ERROR:", error);
+        console.error("Camera error:", error);
 
         alert(
-            "Camera error: " +
-            error.name +
-            "\n\n" +
-            error.message
+            "Camera could not start.\n\n" +
+            error.name
         );
+
     }
+};
+
+
+// CONTINUE
+continueBtn.onclick = function () {
+
+    const name =
+        document.getElementById("name").value.trim();
+
+    const appID =
+        document.getElementById("appID").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    if (!name || !appID || !email) {
+
+        alert(
+            "Please complete your Full Name, Application ID and Email."
+        );
+
+        return;
+    }
+
+    alert("Identity information accepted.");
+
 };

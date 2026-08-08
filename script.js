@@ -1,4 +1,4 @@
-console.log("CAMERA SCRIPT LOADED");
+alert("CAMERA TEST SCRIPT LOADED");
 
 const startBtn = document.getElementById("startBtn");
 const welcome = document.getElementById("welcome");
@@ -9,15 +9,23 @@ let stream = null;
 
 startBtn.onclick = async function () {
 
+    alert("START BUTTON CLICKED");
+
     welcome.style.display = "none";
     identity.style.display = "block";
 
     try {
 
+        alert("REQUESTING CAMERA...");
+
         stream = await navigator.mediaDevices.getUserMedia({
-            video: true,
+            video: {
+                facingMode: "user"
+            },
             audio: true
         });
+
+        alert("CAMERA ACCESS GRANTED");
 
         camera.srcObject = stream;
 
@@ -27,16 +35,16 @@ startBtn.onclick = async function () {
 
         await camera.play();
 
-        console.log("CAMERA WORKING");
+        console.log("CAMERA IS WORKING");
 
     } catch (error) {
 
-        console.error(error);
+        console.error("CAMERA ERROR:", error);
 
         alert(
-            "Camera error: " +
-            error.name
+            "CAMERA ERROR\n\n" +
+            "Name: " + error.name +
+            "\n\nMessage: " + error.message
         );
-
     }
 };

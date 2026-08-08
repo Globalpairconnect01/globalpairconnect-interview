@@ -1,17 +1,18 @@
-alert("SCRIPT IS LOADING");
+console.log("SCRIPT LOADED");
 
 const startBtn = document.getElementById("startBtn");
 
-if (startBtn) {
-    startBtn.onclick = function () {
-        alert("START INTERVIEW WORKS");
-
-        const welcome = document.getElementById("welcome");
-        const identity = document.getElementById("identity");
-
-        if (welcome) welcome.style.display = "none";
-        if (identity) identity.style.display = "block";
-    };
+if (!startBtn) {
+    alert("ERROR: Start button not found");
 } else {
-    alert("ERROR: startBtn NOT FOUND");
+
+    startBtn.addEventListener("click", function () {
+
+        alert("START INTERVIEW CLICKED");
+
+        document.getElementById("welcome").style.display = "none";
+        document.getElementById("identity").style.display = "block";
+
+    });
+
 }

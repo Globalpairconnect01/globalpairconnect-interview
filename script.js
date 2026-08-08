@@ -1,6 +1,25 @@
 // ==========================================
-// GLOBAL PAIR CONNECT INTERVIEW
-// CAMERA + QUESTIONS + RECORDING + TIMER
+// GLOBAL PAIR CONNECT
+// INTERVIEW + CAMERA + RECORDING + SUPABASE
+// ==========================================
+
+console.log("GLOBAL PAIR CONNECT SCRIPT LOADED");
+
+
+// ==========================================
+// SUPABASE
+// ==========================================
+
+const supabase = window.supabaseClient;
+
+if (!supabase) {
+    alert("Supabase is not connected.");
+    console.error("window.supabaseClient is missing.");
+}
+
+
+// ==========================================
+// QUESTIONS
 // ==========================================
 
 const questions = [
@@ -18,46 +37,63 @@ const questions = [
 
 
 // ==========================================
+// VARIABLES
+// ==========================================
+
+let currentQuestion = 0;
+
+let stream = null;
+
+let mediaRecorder = null;
+
+let recordedChunks = [];
+
+let timer = null;
+
+let seconds = 0;
+
+let isUploading = false;
+
+
+// ==========================================
 // HTML ELEMENTS
 // ==========================================
 
 const welcome = document.getElementById("welcome");
+
 const identity = document.getElementById("identity");
+
 const interview = document.getElementById("interview");
+
 const finish = document.getElementById("finish");
 
 const startBtn = document.getElementById("startBtn");
+
 const continueBtn = document.getElementById("continueBtn");
 
 const recordBtn = document.getElementById("recordBtn");
+
 const stopBtn = document.getElementById("stopBtn");
+
 const nextBtn = document.getElementById("nextBtn");
 
 const camera = document.getElementById("camera");
+
 const preview = document.getElementById("preview");
 
 const progress = document.getElementById("progress");
+
 const question = document.getElementById("question");
+
 const time = document.getElementById("time");
 
 const nameInput = document.getElementById("name");
+
 const appIDInput = document.getElementById("appID");
+
 const emailInput = document.getElementById("email");
+
 const languageInput = document.getElementById("language");
-
-
-// ==========================================
-// VARIABLES
-// ==========================================
-
-let stream = null;
-let mediaRecorder = null;
-let recordedChunks = [];
-
-let currentQuestion = 0;
-
-let timer = null;
-let seconds = 0;
 
 
 // ==========================================
@@ -67,11 +103,13 @@ let seconds = 0;
 startBtn.onclick = async function () {
 
     welcome.style.display = "none";
+
     identity.style.display = "block";
 
     try {
 
         stream = await navigator.mediaDevices.getUserMedia({
+
             video: {
                 facingMode: "user",
                 width: {
@@ -81,42 +119,54 @@ startBtn.onclick = async function () {
                     ideal: 720
                 }
             },
+
             audio: true
+
         });
 
-        // Identity page camera
         camera.srcObject = stream;
 
         camera.muted = true;
+
         camera.autoplay = true;
+
         camera.playsInline = true;
 
         await camera.play();
 
-        console.log("Camera and microphone working.");
+        console.log("Camera started.");
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error("Camera error:", error);
 
         alert(
-            "Camera could not start.\n\n" +
-            error.name +
-            "\n\nPlease allow camera and microphone access."
+            "Camera and microphone could not start.\n\n" +
+            error.name
         );
+
     }
+
 };
 
 
 // ==========================================
-// CONTINUE TO INTERVIEW
+// CONTINUE TO QUESTIONS
 // ==========================================
 
 continueBtn.onclick = function () {
 
-    const name = nameInput.value.trim();
-    const appID = appIDInput.value.trim();
-    const email = emailInput.value.trim();
+    const name =
+        nameInput.value.trim();
+
+    const appID =
+        appIDInput.value.trim();
+
+    const email =
+        emailInput.value.trim();
+
 
     if (!name || !appID || !email) {
 
@@ -127,22 +177,29 @@ continueBtn.onclick = function () {
         return;
     }
 
+
     identity.style.display = "none";
+
     interview.style.display = "block";
 
-    // IMPORTANT:
-    // Put the SAME camera stream into the interview preview
+
+    // Keep camera running on interview page
+
     preview.srcObject = stream;
 
     preview.muted = true;
+
     preview.autoplay = true;
+
     preview.playsInline = true;
 
     preview.play();
 
+
     currentQuestion = 0;
 
     showQuestion();
+
 };
 
 
@@ -158,36 +215,56 @@ function showQuestion() {
         " of " +
         questions.length;
 
+
     question.textContent =
         questions[currentQuestion];
 
+
     startTimer();
+
 
     speakQuestion(
         questions[currentQuestion]
     );
+
+
+    recordBtn.disabled = false;
+
+    stopBtn.disabled = true;
+
+    nextBtn.disabled = false;
+
 }
 
 
 // ==========================================
-// READ QUESTION
+// SPEAK QUESTION
 // ==========================================
 
 function speakQuestion(text) {
 
     if (!("speechSynthesis" in window)) {
+
         return;
     }
 
+
     speechSynthesis.cancel();
+
 
     const speech =
         new SpeechSynthesisUtterance(text);
 
+
     speech.lang = "en-US";
+
     speech.rate = 0.95;
 
+    speech.pitch = 1;
+
+
     speechSynthesis.speak(speech);
+
 }
 
 
@@ -203,22 +280,28 @@ function startTimer() {
 
     time.textContent = "00:00";
 
+
     timer = setInterval(function () {
 
         seconds++;
 
+
         const minutes =
             Math.floor(seconds / 60);
 
+
         const secs =
             seconds % 60;
+
 
         time.textContent =
             String(minutes).padStart(2, "0") +
             ":" +
             String(secs).padStart(2, "0");
 
+
     }, 1000);
+
 }
 
 
@@ -235,6 +318,7 @@ recordBtn.onclick = function () {
         return;
     }
 
+
     if (!window.MediaRecorder) {
 
         alert(
@@ -244,19 +328,23 @@ recordBtn.onclick = function () {
         return;
     }
 
+
     recordedChunks = [];
+
 
     try {
 
         mediaRecorder =
             new MediaRecorder(stream);
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error(error);
 
         alert(
-            "Unable to start video recording."
+            "Could not start video recording."
         );
 
         return;
@@ -271,41 +359,35 @@ recordBtn.onclick = function () {
                 recordedChunks.push(
                     event.data
                 );
+
             }
+
         };
 
 
     mediaRecorder.onstop =
-        function () {
+        async function () {
 
-            const videoBlob =
-                new Blob(
-                    recordedChunks,
-                    {
-                        type: "video/webm"
-                    }
-                );
+            await uploadRecording();
 
-            console.log(
-                "Recording finished:",
-                videoBlob.size,
-                "bytes"
-            );
-
-            alert(
-                "Recording completed for Question " +
-                (currentQuestion + 1) +
-                "."
-            );
         };
 
 
     mediaRecorder.start();
 
+
     recordBtn.disabled = true;
+
     stopBtn.disabled = false;
 
-    console.log("Recording started.");
+    nextBtn.disabled = true;
+
+
+    console.log(
+        "Recording started for question " +
+        (currentQuestion + 1)
+    );
+
 };
 
 
@@ -323,11 +405,223 @@ stopBtn.onclick = function () {
         mediaRecorder.stop();
 
         recordBtn.disabled = false;
+
         stopBtn.disabled = true;
 
-        console.log("Recording stopped.");
     }
+
 };
+
+
+// ==========================================
+// UPLOAD RECORDING TO SUPABASE
+// ==========================================
+
+async function uploadRecording() {
+
+    isUploading = true;
+
+    nextBtn.disabled = true;
+
+
+    if (recordedChunks.length === 0) {
+
+        console.log("No video data.");
+
+        isUploading = false;
+
+        nextBtn.disabled = false;
+
+        return;
+    }
+
+
+    const videoBlob =
+        new Blob(
+            recordedChunks,
+            {
+                type: "video/webm"
+            }
+        );
+
+
+    // Clean application ID for file name
+
+    const safeAppID =
+        appIDInput.value
+            .trim()
+            .replace(/[^a-zA-Z0-9_-]/g, "_");
+
+
+    const fileName =
+        safeAppID +
+        "_question_" +
+        (currentQuestion + 1) +
+        "_" +
+        Date.now() +
+        ".webm";
+
+
+    console.log(
+        "Uploading:",
+        fileName
+    );
+
+
+    try {
+
+        // ==================================
+        // UPLOAD VIDEO
+        // ==================================
+
+        const {
+            error: uploadError
+        } = await supabase.storage
+            .from("interviews")
+            .upload(
+                fileName,
+                videoBlob,
+                {
+                    contentType: "video/webm",
+                    upsert: false
+                }
+            );
+
+
+        if (uploadError) {
+
+            console.error(
+                "Upload error:",
+                uploadError
+            );
+
+            alert(
+                "Video upload failed.\n\n" +
+                uploadError.message
+            );
+
+            isUploading = false;
+
+            nextBtn.disabled = false;
+
+            return;
+        }
+
+
+        console.log(
+            "Video uploaded successfully."
+        );
+
+
+        // ==================================
+        // GET VIDEO URL
+        // ==================================
+
+        const {
+            data: publicData
+        } = supabase.storage
+            .from("interviews")
+            .getPublicUrl(fileName);
+
+
+        const videoURL =
+            publicData.publicUrl;
+
+
+        console.log(
+            "Video URL:",
+            videoURL
+        );
+
+
+        // ==================================
+        // SAVE DATABASE RECORD
+        // ==================================
+
+        const {
+            error: dbError
+        } = await supabase
+            .from("interviews")
+            .insert([
+
+                {
+
+                    full_name:
+                        nameInput.value.trim(),
+
+                    application_id:
+                        appIDInput.value.trim(),
+
+                    email:
+                        emailInput.value.trim(),
+
+                    language:
+                        languageInput.value,
+
+                    video_url:
+                        videoURL,
+
+                    status:
+                        "Pending"
+
+                }
+
+            ]);
+
+
+        if (dbError) {
+
+            console.error(
+                "Database error:",
+                dbError
+            );
+
+            alert(
+                "Video uploaded, but the interview details could not be saved.\n\n" +
+                dbError.message
+            );
+
+            isUploading = false;
+
+            nextBtn.disabled = false;
+
+            return;
+        }
+
+
+        console.log(
+            "Interview record saved."
+        );
+
+
+        alert(
+            "Question " +
+            (currentQuestion + 1) +
+            " recording uploaded successfully."
+        );
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Unexpected upload error:",
+            error
+        );
+
+        alert(
+            "Something went wrong while uploading the recording."
+        );
+
+    }
+
+
+    isUploading = false;
+
+    nextBtn.disabled = false;
+
+}
 
 
 // ==========================================
@@ -336,19 +630,36 @@ stopBtn.onclick = function () {
 
 nextBtn.onclick = function () {
 
-    // Stop recording if still recording
+    if (isUploading) {
+
+        alert(
+            "Please wait for the recording to finish uploading."
+        );
+
+        return;
+    }
+
+
+    // If currently recording, stop first
+
     if (
         mediaRecorder &&
         mediaRecorder.state === "recording"
     ) {
 
-        mediaRecorder.stop();
+        alert(
+            "Please stop the recording before moving to the next question."
+        );
 
-        recordBtn.disabled = false;
-        stopBtn.disabled = true;
+        return;
     }
 
+
+    clearInterval(timer);
+
+
     currentQuestion++;
+
 
     if (
         currentQuestion >=
@@ -360,36 +671,70 @@ nextBtn.onclick = function () {
         return;
     }
 
+
     showQuestion();
+
 };
 
 
 // ==========================================
-// FINISH
+// FINISH INTERVIEW
 // ==========================================
 
 function finishInterview() {
 
     clearInterval(timer);
 
-    speechSynthesis.cancel();
+
+    if (
+        "speechSynthesis" in window
+    ) {
+
+        speechSynthesis.cancel();
+
+    }
+
 
     interview.style.display = "none";
+
     finish.style.display = "block";
+
 
     if (stream) {
 
         stream.getTracks().forEach(
             function (track) {
+
                 track.stop();
+
             }
         );
+
     }
+
 
     console.log(
         "Interview completed."
     );
-}
+
+
+    if (
+        "speechSynthesis" in window
+    ) {
+
+        const speech =
+            new SpeechSynthesisUtterance(
+                "Congratulations. You have successfully completed your Global Pair Connect interview. Thank you."
+            );
+
+
+        speech.lang = "en-US";
+
+        speechSynthesis.speak(speech);
+
+    }
+
+};
 
 
 // ==========================================
@@ -397,8 +742,12 @@ function finishInterview() {
 // ==========================================
 
 recordBtn.disabled = false;
+
 stopBtn.disabled = true;
 
+nextBtn.disabled = false;
+
+
 console.log(
-    "GLOBAL PAIR CONNECT INTERVIEW SCRIPT LOADED"
+    "GLOBAL PAIR CONNECT READY"
 );

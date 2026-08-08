@@ -1,4 +1,4 @@
-alert("script.js loaded");
+alert("SCRIPT.JS IS RUNNING");
 // =======================================
 // GLOBAL PAIR CONNECT
 // PART 1 - INITIALIZATION & CAMERA

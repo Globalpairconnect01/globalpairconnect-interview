@@ -2,8 +2,36 @@ alert("SCRIPT.JS IS RUNNING");
 
 const startBtn = document.getElementById("startBtn");
 
-startBtn.addEventListener("click", function () {
-    alert("START INTERVIEW BUTTON WORKS");
+startBtn.addEventListener("click", async function () {
+
+    alert("START BUTTON CLICKED");
+
+    try {
+
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true
+        });
+
+        alert("CAMERA AND MICROPHONE WORK!");
+
+        const identity = document.getElementById("identity");
+        const welcome = document.getElementById("welcome");
+        const camera = document.getElementById("camera");
+
+        welcome.style.display = "none";
+        identity.style.display = "block";
+
+        camera.srcObject = stream;
+
+    } catch (error) {
+
+        alert("CAMERA ERROR: " + error.name);
+
+        console.error(error);
+
+    }
+
 });
 
 console.log("SCRIPT.JS STARTED");

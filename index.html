@@ -243,4 +243,943 @@ footer {
             class="welcome-image"
         >
 
-        <h2>Welcome</h
+        <h2>Welcome</h2>
+
+        <p>
+            Welcome to your Global Pair Connect online interview.
+        </p>
+
+        <div class="instructions">
+            <p>✅ You are alone in a quiet room.</p>
+            <p>✅ Your face is clearly visible.</p>
+            <p>✅ Your passport or national ID is ready.</p>
+            <p>✅ Your internet connection is stable.</p>
+            <p>✅ Your camera and microphone are working.</p>
+        </div>
+
+        <button id="startBtn">
+            Start Interview →
+        </button>
+
+    </section>
+
+
+    <!-- IDENTITY -->
+    <section id="identity" class="card hidden">
+
+        <h2>Identity Verification</h2>
+
+        <p>
+            Please enter your details and show your passport or national ID
+            to the camera.
+        </p>
+
+        <label for="name">Full Name</label>
+        <input
+            id="name"
+            type="text"
+            placeholder="Enter your full name"
+        >
+
+        <label for="appID">Application ID</label>
+        <input
+            id="appID"
+            type="text"
+            placeholder="Enter your application ID"
+        >
+
+        <label for="email">Email Address</label>
+        <input
+            id="email"
+            type="email"
+            placeholder="Enter your email address"
+        >
+
+        <label for="language">Preferred Language</label>
+
+        <select id="language">
+            <option value="English">English</option>
+            <option value="French">French</option>
+            <option value="German">German</option>
+            <option value="Spanish">Spanish</option>
+            <option value="Italian">Italian</option>
+            <option value="Dutch">Dutch</option>
+        </select>
+
+        <div class="camera-title">
+            Camera Preview
+        </div>
+
+        <video
+            id="camera"
+            autoplay
+            playsinline
+            muted
+        ></video>
+
+        <p>
+            Please hold your passport or national ID in front of the camera
+            before continuing.
+        </p>
+
+        <button id="continueBtn">
+            Continue →
+        </button>
+
+    </section>
+
+
+    <!-- INTERVIEW -->
+    <section id="interview" class="card hidden">
+
+        <div class="progress" id="progress">
+            Question 1 of 10
+        </div>
+
+        <div class="timer" id="time">
+            00:00
+        </div>
+
+        <video
+            id="preview"
+            autoplay
+            playsinline
+            muted
+        ></video>
+
+        <div class="question-box">
+
+            <div
+                class="question"
+                id="question"
+            >
+            </div>
+
+        </div>
+
+        <div
+            class="status"
+            id="status"
+        >
+            Ready to record
+        </div>
+
+        <button id="recordBtn">
+            🎥 Start Recording
+        </button>
+
+        <button
+            id="stopBtn"
+            class="danger"
+            disabled
+        >
+            ⏹ Stop Recording
+        </button>
+
+        <button id="nextBtn">
+            Next Question →
+        </button>
+
+    </section>
+
+
+    <!-- FINISH -->
+    <section id="finish" class="card hidden">
+
+        <h2 class="success">
+            Interview Completed
+        </h2>
+
+        <p>
+            Congratulations. You have successfully completed your
+            Global Pair Connect interview.
+        </p>
+
+        <p>
+            Thank you for taking the time to complete your interview.
+        </p>
+
+        <button onclick="location.reload()">
+            Return to Start
+        </button>
+
+    </section>
+
+</div>
+
+<footer>
+    © 2026 Global Pair Connect. All Rights Reserved.
+</footer>
+
+
+<script>
+
+console.log("GLOBAL PAIR CONNECT - FULL HTML READY");
+
+
+/* ================================
+   QUESTIONS
+================================ */
+
+const questions = [
+
+    "Tell us about yourself and explain why you would like to become an au pair.",
+
+    "Describe your experience caring for children.",
+
+    "Why do you want to live with a host family in Europe?",
+
+    "Describe a challenging situation with a child and how you handled it.",
+
+    "How would you manage homesickness while living abroad?",
+
+    "What would you do if a child refused to follow your instructions?",
+
+    "Describe what a normal working day as an au pair would look like.",
+
+    "What personal qualities make you a good au pair?",
+
+    "What would you do if you had a disagreement with your host family?",
+
+    "Is there anything else you would like the Global Pair Connect team to know about you?"
+
+];
+
+
+/* ================================
+   VARIABLES
+================================ */
+
+let currentQuestion = 0;
+
+let stream = null;
+
+let mediaRecorder = null;
+
+let recordedChunks = [];
+
+let timer = null;
+
+let seconds = 0;
+
+
+/* ================================
+   HTML ELEMENTS
+================================ */
+
+const welcome =
+    document.getElementById("welcome");
+
+const identity =
+    document.getElementById("identity");
+
+const interview =
+    document.getElementById("interview");
+
+const finish =
+    document.getElementById("finish");
+
+const startBtn =
+    document.getElementById("startBtn");
+
+const continueBtn =
+    document.getElementById("continueBtn");
+
+const recordBtn =
+    document.getElementById("recordBtn");
+
+const stopBtn =
+    document.getElementById("stopBtn");
+
+const nextBtn =
+    document.getElementById("nextBtn");
+
+const camera =
+    document.getElementById("camera");
+
+const preview =
+    document.getElementById("preview");
+
+const progress =
+    document.getElementById("progress");
+
+const question =
+    document.getElementById("question");
+
+const time =
+    document.getElementById("time");
+
+const statusText =
+    document.getElementById("status");
+
+const nameInput =
+    document.getElementById("name");
+
+const appIDInput =
+    document.getElementById("appID");
+
+const emailInput =
+    document.getElementById("email");
+
+const languageInput =
+    document.getElementById("language");
+
+
+/* ================================
+   START INTERVIEW
+================================ */
+
+startBtn.onclick = async function () {
+
+    console.log("START INTERVIEW CLICKED");
+
+    try {
+
+        if (
+            !navigator.mediaDevices ||
+            !navigator.mediaDevices.getUserMedia
+        ) {
+
+            alert(
+                "Your browser does not support camera access. Please use Chrome."
+            );
+
+            return;
+        }
+
+
+        stream =
+            await navigator.mediaDevices.getUserMedia({
+
+                video: {
+                    facingMode: "user"
+                },
+
+                audio: true
+
+            });
+
+
+        console.log("CAMERA AND MICROPHONE WORK");
+
+
+        welcome.classList.add("hidden");
+
+        identity.classList.remove("hidden");
+
+
+        camera.srcObject = stream;
+
+        camera.muted = true;
+
+        camera.setAttribute("playsinline", "");
+
+        try {
+
+            await camera.play();
+
+        } catch (error) {
+
+            console.log(
+                "Camera preview play:",
+                error
+            );
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "CAMERA ERROR:",
+            error
+        );
+
+        alert(
+            "Camera or microphone permission was not granted.\n\nPlease allow camera and microphone access and try again."
+        );
+
+    }
+
+};
+
+
+/* ================================
+   CONTINUE
+================================ */
+
+continueBtn.onclick = function () {
+
+    console.log("CONTINUE CLICKED");
+
+
+    const name =
+        nameInput.value.trim();
+
+    const appID =
+        appIDInput.value.trim();
+
+    const email =
+        emailInput.value.trim();
+
+
+    if (!name || !appID || !email) {
+
+        alert(
+            "Please complete your Full Name, Application ID and Email."
+        );
+
+        return;
+    }
+
+
+    identity.classList.add("hidden");
+
+    interview.classList.remove("hidden");
+
+
+    preview.srcObject = stream;
+
+    preview.muted = true;
+
+    preview.setAttribute(
+        "playsinline",
+        ""
+    );
+
+
+    preview.play().catch(
+        function (error) {
+
+            console.log(
+                "Preview play error:",
+                error
+            );
+
+        }
+    );
+
+
+    showQuestion();
+
+};
+
+
+/* ================================
+   SHOW QUESTION
+================================ */
+
+function showQuestion() {
+
+    progress.textContent =
+        "Question " +
+        (currentQuestion + 1) +
+        " of " +
+        questions.length;
+
+
+    question.textContent =
+        questions[currentQuestion];
+
+
+    statusText.textContent =
+        "Ready to record";
+
+
+    recordBtn.disabled = false;
+
+    stopBtn.disabled = true;
+
+
+    startTimer();
+
+
+    speakQuestion(
+        questions[currentQuestion]
+    );
+
+}
+
+
+/* ================================
+   SPEAK QUESTION
+================================ */
+
+function speakQuestion(text) {
+
+    if (
+        "speechSynthesis"
+        in window
+    ) {
+
+        speechSynthesis.cancel();
+
+
+        const speech =
+            new SpeechSynthesisUtterance(text);
+
+
+        speech.lang = "en-US";
+
+        speech.rate = 0.95;
+
+        speech.pitch = 1;
+
+
+        speechSynthesis.speak(
+            speech
+        );
+
+    }
+
+}
+
+
+/* ================================
+   TIMER
+================================ */
+
+function startTimer() {
+
+    clearInterval(timer);
+
+    seconds = 0;
+
+    updateTimer();
+
+
+    timer =
+        setInterval(
+            function () {
+
+                seconds++;
+
+                updateTimer();
+
+            },
+            1000
+        );
+
+}
+
+
+function updateTimer() {
+
+    const minutes =
+        Math.floor(
+            seconds / 60
+        );
+
+    const secs =
+        seconds % 60;
+
+
+    time.textContent =
+        String(minutes).padStart(2, "0")
+        +
+        ":"
+        +
+        String(secs).padStart(2, "0");
+
+}
+
+
+/* ================================
+   START RECORDING
+================================ */
+
+recordBtn.onclick =
+    function () {
+
+        console.log(
+            "START RECORDING CLICKED"
+        );
+
+
+        if (!stream) {
+
+            alert(
+                "Camera is not ready."
+            );
+
+            return;
+        }
+
+
+        if (
+            !window.MediaRecorder
+        ) {
+
+            alert(
+                "Video recording is not supported by this browser."
+            );
+
+            return;
+        }
+
+
+        recordedChunks = [];
+
+
+        let mimeType =
+            "video/webm";
+
+
+        if (
+            !MediaRecorder.isTypeSupported(
+                "video/webm;codecs=vp8,opus"
+            )
+        ) {
+
+            if (
+                MediaRecorder.isTypeSupported(
+                    "video/webm"
+                )
+            ) {
+
+                mimeType =
+                    "video/webm";
+
+            } else {
+
+                mimeType = "";
+
+            }
+
+        }
+
+
+        try {
+
+            if (mimeType) {
+
+                mediaRecorder =
+                    new MediaRecorder(
+                        stream,
+                        {
+                            mimeType:
+                                mimeType
+                        }
+                    );
+
+            } else {
+
+                mediaRecorder =
+                    new MediaRecorder(
+                        stream
+                    );
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Unable to start recording on this device."
+            );
+
+            return;
+        }
+
+
+        mediaRecorder.ondataavailable =
+            function (event) {
+
+                if (
+                    event.data &&
+                    event.data.size > 0
+                ) {
+
+                    recordedChunks.push(
+                        event.data
+                    );
+
+                }
+
+            };
+
+
+        mediaRecorder.onstop =
+            function () {
+
+                saveRecording();
+
+            };
+
+
+        mediaRecorder.start();
+
+
+        statusText.textContent =
+            "🔴 Recording in progress";
+
+
+        recordBtn.disabled = true;
+
+        stopBtn.disabled = false;
+
+    };
+
+
+/* ================================
+   STOP RECORDING
+================================ */
+
+stopBtn.onclick =
+    function () {
+
+        console.log(
+            "STOP RECORDING CLICKED"
+        );
+
+
+        if (
+            mediaRecorder &&
+            mediaRecorder.state ===
+            "recording"
+        ) {
+
+            mediaRecorder.stop();
+
+        }
+
+
+        recordBtn.disabled = false;
+
+        stopBtn.disabled = true;
+
+        statusText.textContent =
+            "Recording saved on this device";
+
+    };
+
+
+/* ================================
+   SAVE RECORDING
+================================ */
+
+function saveRecording() {
+
+    if (
+        recordedChunks.length === 0
+    ) {
+
+        alert(
+            "No recording was captured."
+        );
+
+        return;
+    }
+
+
+    const blob =
+        new Blob(
+            recordedChunks,
+            {
+                type:
+                    "video/webm"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+
+    const safeAppID =
+        appIDInput.value
+            .replace(
+                /[^a-z0-9_-]/gi,
+                "_"
+            );
+
+
+    link.href = url;
+
+
+    link.download =
+        "Global_Pair_Connect_" +
+        safeAppID +
+        "_Question_" +
+        (currentQuestion + 1) +
+        ".webm";
+
+
+    document.body.appendChild(
+        link
+    );
+
+
+    link.click();
+
+
+    document.body.removeChild(
+        link
+    );
+
+
+    setTimeout(
+        function () {
+
+            URL.revokeObjectURL(
+                url
+            );
+
+        },
+        5000
+    );
+
+
+    statusText.textContent =
+        "✅ Recording saved";
+
+}
+
+
+/* ================================
+   NEXT QUESTION
+================================ */
+
+nextBtn.onclick =
+    function () {
+
+        console.log(
+            "NEXT QUESTION CLICKED"
+        );
+
+
+        if (
+            mediaRecorder &&
+            mediaRecorder.state ===
+            "recording"
+        ) {
+
+            mediaRecorder.stop();
+
+        }
+
+
+        currentQuestion++;
+
+
+        if (
+            currentQuestion >=
+            questions.length
+        ) {
+
+            finishInterview();
+
+            return;
+
+        }
+
+
+        showQuestion();
+
+    };
+
+
+/* ================================
+   FINISH
+================================ */
+
+function finishInterview() {
+
+    clearInterval(timer);
+
+
+    if (
+        mediaRecorder &&
+        mediaRecorder.state ===
+        "recording"
+    ) {
+
+        mediaRecorder.stop();
+
+    }
+
+
+    if (stream) {
+
+        stream
+            .getTracks()
+            .forEach(
+                function (track) {
+
+                    track.stop();
+
+                }
+            );
+
+    }
+
+
+    if (
+        "speechSynthesis"
+        in window
+    ) {
+
+        speechSynthesis.cancel();
+
+    }
+
+
+    interview.classList.add(
+        "hidden"
+    );
+
+    finish.classList.remove(
+        "hidden"
+    );
+
+
+    if (
+        "speechSynthesis"
+        in window
+    ) {
+
+        const speech =
+            new SpeechSynthesisUtterance(
+                "Congratulations. You have successfully completed your Global Pair Connect interview. Thank you."
+            );
+
+
+        speech.lang =
+            "en-US";
+
+
+        speechSynthesis.speak(
+            speech
+        );
+
+    }
+
+}
+
+
+/* ================================
+   INITIAL STATE
+================================ */
+
+recordBtn.disabled = false;
+
+stopBtn.disabled = true;
+
+
+console.log(
+    "GLOBAL PAIR CONNECT INTERVIEW READY"
+);
+
+</script>
+
+</body>
+</html>

@@ -1,161 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,Helvetica,sans-serif;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Global Pair Connect Interview</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
 }
 
-body{
-background:#eef3f8;
-color:#222;
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #eef4f8;
+    color: #222;
 }
 
-header{
-height:70vh;
-background:
-linear-gradient(rgba(0,40,90,.65),rgba(0,40,90,.65)),
-url("file_00000000f3b081f4a2259aec0e9535ab.png");
-background-size:cover;
-background-position:center;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-color:#fff;
-padding:30px;
+header {
+    background: #063b70;
+    color: white;
+    text-align: center;
+    padding: 28px 15px;
 }
 
-header h1{
-font-size:48px;
-margin-bottom:15px;
+header h1 {
+    margin: 0;
+    font-size: 38px;
 }
 
-header p{
-font-size:22px;
-max-width:700px;
+header p {
+    margin: 10px 0 0;
+    font-size: 18px;
 }
 
-section{
-width:90%;
-max-width:900px;
-margin:-60px auto 40px;
-background:#fff;
-padding:35px;
-border-radius:18px;
-box-shadow:0 10px 35px rgba(0,0,0,.15);
+.container {
+    width: 94%;
+    max-width: 900px;
+    margin: 30px auto;
 }
 
-h2{
-color:#003366;
-margin-bottom:20px;
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 22px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
 }
 
-p{
-line-height:1.7;
-margin-bottom:15px;
+.hidden {
+    display: none !important;
+}
+
+.welcome-image {
+    width: 100%;
+    display: block;
+    border-radius: 18px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    color: #063b70;
+}
+
+.instructions {
+    background: #f1f7fc;
+    padding: 20px;
+    border-radius: 15px;
+    line-height: 1.7;
+    margin: 20px 0;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 18px;
+    margin-bottom: 7px;
 }
 
 input,
-select{
-width:100%;
-padding:14px;
-margin:10px 0 20px;
-border:1px solid #ccc;
-border-radius:10px;
-font-size:16px;
+select {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    font-size: 16px;
 }
 
-video{
-width:100%;
-background:#000;
-border-radius:15px;
-margin:20px 0;
+video {
+    width: 100%;
+    background: #000;
+    border-radius: 18px;
+    margin-top: 15px;
 }
 
-button{
-background:#0057b8;
-color:#fff;
-border:none;
-padding:15px 30px;
-border-radius:10px;
-font-size:17px;
-cursor:pointer;
-transition:.3s;
+button {
+    width: 100%;
+    padding: 17px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 12px;
+    background: #075db5;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-button:hover{
-background:#003d82;
-transform:translateY(-2px);
+button:hover {
+    background: #064b91;
 }
 
-button:disabled{
-background:#999;
-cursor:not-allowed;
+button:disabled {
+    background: #999;
+    cursor: not-allowed;
 }
 
-.buttons{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-justify-content:center;
-margin-top:20px;
+.danger {
+    background: #d62828;
 }
 
-#progress{
-font-size:22px;
-font-weight:bold;
-margin-bottom:15px;
+.danger:hover {
+    background: #b71c1c;
 }
 
-#question{
-font-size:22px;
-font-weight:bold;
-margin:25px 0;
+#progress {
+    text-align: center;
+    color: #063b70;
+    font-size: 22px;
+    font-weight: bold;
 }
 
-#time{
-font-size:28px;
-font-weight:bold;
-color:#d60000;
-text-align:center;
-margin:20px 0;
+#time {
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    color: #d00000;
+    margin: 20px 0;
 }
 
-footer{
-background:#003366;
-color:white;
-text-align:center;
-padding:20px;
-margin-top:50px;
+#question {
+    background: #f1f7fc;
+    padding: 25px;
+    border-radius: 15px;
+    font-size: 24px;
+    line-height: 1.5;
 }
 
-@media(max-width:768px){
-
-header{
-height:55vh;
+#status {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 20px 0;
 }
 
-header h1{
-font-size:34px;
-}
-
-header p{
-font-size:18px;
-}
-
-section{
-margin:-40px 15px 25px;
-padding:25px;
-}
-
-button{
-width:100%;
-}
-
-.buttons{
-flex-direction:column;
-}
-
-}
+footer {
+    background: #063b70;
+    color: white;
+    text-align: center;
+    padding: 25px
